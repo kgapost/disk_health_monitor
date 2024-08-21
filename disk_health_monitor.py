@@ -15,7 +15,6 @@ import ctypes
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 PRINT_CMD_OUTPUT = True
-ERROR_THRESHOLD = 0  # 0 will always send an email report
 EMAIL_SENDER = 'diskhealthstatusmonitor@gmail.com'
 EMAIL_PASSWORD = 'annhmnqnubsosgad'
 EMAIL_RECIPIENTS = ['kapost@iti.gr']
@@ -323,11 +322,9 @@ def main_proc():
         logging.info('perform_disk_checks::')
         info, results, passed = perform_disk_checks(drives_to_check)
 
-        if len([p for p in passed if not p]) > ERROR_THRESHOLD:
-            report = "\n".join(info + results)
-            send_email(report)
-        else:
-            logging.info('All drives passed health checks.')
+		report = "\n".join(info + results)
+		send_email(report)
+
 
     except Exception as e:
         logging.error(f'!!! Error in main process: {e}')
